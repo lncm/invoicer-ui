@@ -14,9 +14,11 @@ const config = {
   devtool: 'cheap-module-eval-source-map',
 
   entry: [
+    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
+    'normalize.css/normalize.css',
     './main.js',
     './assets/scss/main.scss',
   ],
@@ -38,17 +40,18 @@ const config = {
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-      },
-      {
         test: /\.jsx?$/,
         loaders: [
           'babel-loader',
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.scss$/,

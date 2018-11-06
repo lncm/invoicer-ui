@@ -11,6 +11,11 @@
   "author": "Chris Hitchcott <hitchcott@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "babel-polyfill": "^6.26.0",
+    "normalize.css": "^8.0.0",
+    "prop-types": "^15.6.2",
+    "qrcode.react": "^0.8.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-hot-loader": "4.3.11"

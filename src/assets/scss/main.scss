@@ -1,6 +1,77 @@
-$color: #262828;
+$mobileBreakpoint: 600px;
+$boldWeight: 500;
+$normalWeight: 300;
 
 body {
-  background: #ededed;
-  color: $color;
+  background: #f7f7f7;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+  line-height: 1.5;
+}
+
+h1,h2 { font-weight: $boldWeight; }
+h3,h4,h5,h6,a,strong,b { font-weight: $normalWeight; }
+h3,h4,h5 { margin: 0.2em 0; }
+h3 a { font-weight: $boldWeight; }
+
+bold {
+  font-weight: bold;
+}
+
+italic {
+  font-style: italic;
+}
+
+a {
+  text-decoration: underline;
+  color: inherit;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#layout-container {
+  margin: 1em auto;
+  max-width: 650px;
+  padding: 1.5em;
+  border: 1px solid #efefef;
+  background: white;
+}
+
+#main-header {
+  text-align: center;
+  margin-bottom: 1em;
+  img.logo {
+    max-width: 100%;
+    width: 128px;
+  }
+  h1 {
+    margin: 0;
+    line-height: 1em;
+    small { font-size: 0.6em; }
+  }
+}
+
+.content {
+  text-align: center;
+}
+
+.info {
+  font-size: 1.2em;
+  display: block;
+  margin: auto;
+  font-weight: bold;
+  margin-bottom: 1em;
+  color: blue;
+  &.red {
+    color:red;
+  }
+  &.green {
+    color: green;
+  }
+}
+
+#button {
+  border: 0;
+  background: #333;
 }

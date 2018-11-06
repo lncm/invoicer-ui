@@ -1,8 +1,11 @@
-# Webpack React Boilerplate
+# LNCM Invoicer UI
 
-### Yet Another Ultra-Minimal React Boilerplate Project
+For https://github.com/lncm/invoicer/issues/5
 
-* React
-* HMR
-* SCSS
-* React-Router
+See `dist/index.html`
+
+### Todos
+
+```
+- use real HTTP endpoints
+```

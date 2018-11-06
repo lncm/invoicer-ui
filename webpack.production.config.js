@@ -15,6 +15,7 @@ const config = {
   },
   mode: 'production',
   entry: [
+    'babel-polyfill',
     './main.js',
     './assets/scss/main.scss',
   ],
@@ -73,6 +74,13 @@ const config = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.scss$/,
