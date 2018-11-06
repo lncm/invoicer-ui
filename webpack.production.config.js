@@ -17,8 +17,8 @@ const config = {
   entry: [
     'babel-polyfill',
     'whatwg-fetch',
-    './main.js',
     './assets/scss/main.scss',
+    './main.js',
   ],
   context: resolve(__dirname, 'src'),
   output: {
@@ -77,22 +77,9 @@ const config = {
         loader: 'babel-loader',
       },
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          publicPath: '../',
-          use: [
-            // TODO make this work with normalize.css
-            { loader: 'css-loader', options: { minimize: true } },
-          ],
-        }),
-      },
-      {
         test: /\.scss$/,
-        exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          publicPath: '../',
           use: [
             'css-loader',
             { loader: 'sass-loader', query: { sourceMap: false } },
