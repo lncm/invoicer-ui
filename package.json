@@ -18,7 +18,8 @@
     "qrcode.react": "^0.8.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
-    "react-hot-loader": "4.3.11"
+    "react-hot-loader": "4.3.11",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.1.1",

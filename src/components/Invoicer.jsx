@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 
 import { newInvoice, awaitStatus } from '../api';
@@ -6,6 +7,7 @@ import QrCode from './QrCode';
 import Status from './Status';
 import Spinner from './Spinner';
 
+const errorMessage = 'Oops, something went wrong!';
 const defaultState = { loading: true, code: null, error: null, status: null };
 
 export default class Invoicer extends Component {
@@ -23,7 +25,8 @@ export default class Invoicer extends Component {
       this.setState({ code: await newInvoice(), loading: false });
       this.checkInvoiceStatus();
     } catch (e) {
-      this.setState({ error: e });
+      console.log(e);
+      this.setState({ error: errorMessage, loading: false });
     }
   }
   async checkInvoiceStatus() {
@@ -36,14 +39,15 @@ export default class Invoicer extends Component {
       }
     } catch (e) {
       if (hash === this.state.code.hash) {
-        this.setState({ error: e });
+        console.log(e);
+        this.setState({ error: errorMessage });
       }
     }
   }
   renderInvoice() {
     const { code, loading, error, status } = this.state;
     if (error) {
-      return <div className="info red">{JSON.stringify(error)}</div>;
+      return <div className="info red">{error}</div>;
     }
     if (loading) {
       return <Spinner />;

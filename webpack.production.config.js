@@ -16,6 +16,7 @@ const config = {
   mode: 'production',
   entry: [
     'babel-polyfill',
+    'whatwg-fetch',
     './main.js',
     './assets/scss/main.scss',
   ],
