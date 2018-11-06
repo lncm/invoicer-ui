@@ -19,5 +19,5 @@ npm run build
 ### Todos
 
 ```
-- use real HTTP endpoints
+- normalize.css
 ```

@@ -13,7 +13,7 @@ export default class QrCode extends Component {
       <div>
         <div className="info">Scan the QR code to make a lightning payment:</div>
         <a href={uri}>
-          <QRCode value={uri} renderAs="svg" style={{ width: '100%', height: 'auto' }} />
+          <QRCode value={uri} renderAs="svg" style={{ width: '100%', height: 'auto', maxHeight: '50vh' }} />
         </a>
       </div>
     );

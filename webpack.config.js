@@ -19,7 +19,6 @@ const config = {
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    'normalize.css/normalize.css',
     './main.js',
     './assets/scss/main.scss',
   ],

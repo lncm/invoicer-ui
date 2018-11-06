@@ -80,7 +80,11 @@ const config = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader',
+          publicPath: '../',
+          use: [
+            // TODO make this work with normalize.css
+            { loader: 'css-loader', options: { minimize: true } },
+          ],
         }),
       },
       {
@@ -88,11 +92,11 @@ const config = {
         exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
+          publicPath: '../',
           use: [
             'css-loader',
             { loader: 'sass-loader', query: { sourceMap: false } },
           ],
-          publicPath: '../',
         }),
       },
       {
