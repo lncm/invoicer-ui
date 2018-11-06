@@ -19,6 +19,7 @@ export default () => {
           <br />
           <small>Lightning Network Chiang Mai</small>
         </h1>
+        <h2 style={{ color: 'red' }}>Warning: This is a demo, do not use real funds</h2>
       </div>
       <div className="content">
         <Invoicer />

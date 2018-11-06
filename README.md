@@ -1,10 +1,10 @@
-# LNCM Invoicer UI
+# [WIP] LNCM Invoicer UI
 
 For https://github.com/lncm/invoicer/issues/5
 
 See `dist/index.html`
 
-## Develop
+### Develop
 
 ```
 npm start

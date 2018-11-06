@@ -29,9 +29,15 @@ export default class Invoicer extends Component {
   async checkInvoiceStatus() {
     const { code: { hash } } = this.state;
     try {
-      this.setState({ status: await awaitStatus(hash) });
+      const status = await awaitStatus(hash);
+      // do nothing if there's a new invoice already created
+      if (hash === this.state.code.hash) {
+        this.setState({ status });
+      }
     } catch (e) {
-      this.setState({ error: e });
+      if (hash === this.state.code.hash) {
+        this.setState({ error: e });
+      }
     }
   }
   renderInvoice() {
