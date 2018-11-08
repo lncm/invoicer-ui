@@ -62,7 +62,7 @@ export default class Invoicer extends Component {
     return (
       <div>
         {this.renderInvoice()}
-        {!loading && <button type="button" onClick={this.generateInvoice}>Generate New Invoice</button>}
+        {!loading && <button type="button" onClick={this.generateInvoice}>Donate Again</button>}
       </div>
     );
   }
