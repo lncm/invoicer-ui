@@ -10,7 +10,7 @@ import Spinner from './Spinner';
 const errorMessage = 'Oops, something went wrong!';
 const defaultState = { loading: true, code: null, error: null, status: null };
 
-export default class Invoicer extends Component {
+export default class Donate extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
