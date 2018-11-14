@@ -78,3 +78,12 @@ a {
 button {
   padding: 0.5em;
 }
+
+#nav {
+  text-align: center;
+  ul { padding: 0; }
+  li {
+    display: inline-block;
+    padding: 0.2em 0.5em;
+  }
+}
