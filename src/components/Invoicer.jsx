@@ -1,14 +1,24 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 
-import { newInvoice, awaitStatus } from '../api';
+import { newInvoice, newDonation, awaitStatus, getPrice } from '../api';
 
 import QrCode from './QrCode';
 import Status from './Status';
 import Spinner from './Spinner';
 
 const errorMessage = 'Oops, something went wrong!';
-const defaultState = { loading: true, code: null, error: null, status: null };
+const defaultState = {
+  loading: true,
+  code: null,
+  error: null,
+  status: null,
+  price: null,
+  currencyAmt: 'Amount',
+  clearDisabled: false,
+  btcPrice: '0.00000000',
+  currency: 'THB',
+};
 
 export default class Invoicer extends Component {
   constructor(props) {
@@ -16,19 +26,43 @@ export default class Invoicer extends Component {
     this.state = defaultState;
     this.generateInvoice = this.generateInvoice.bind(this);
   }
+
   componentDidMount() {
     this.generateInvoice();
   }
+
   async generateInvoice() {
-    this.setState(defaultState);
+    this.setState({
+      loading: true,
+      status: null,
+    });
+    const sats = this.state.btcPrice * 100000000;
     try {
-      this.setState({ code: await newInvoice(), loading: false });
+      if (this.state.clearDisabled) {
+        // amount specified, pass it in api call
+        this.setState({
+          price: await getPrice(),
+          code: await newInvoice(sats),
+          loading: false,
+        });
+      } else {
+        // no amount specified, free-form payment
+        this.setState({
+          price: await getPrice(),
+          code: await newDonation(),
+          loading: false,
+        });
+      }
       this.checkInvoiceStatus();
     } catch (e) {
       console.log(e);
-      this.setState({ error: errorMessage, loading: false });
+      this.setState({
+        error: errorMessage,
+        loading: false,
+      });
     }
   }
+
   async checkInvoiceStatus() {
     const { code: { hash } } = this.state;
     try {
@@ -44,8 +78,44 @@ export default class Invoicer extends Component {
       }
     }
   }
+
+  calcFX(currency, amount) {
+    if (this.state.clearDisabled) {
+      const price = amount / this.state.price[currency];
+      const btcPrice = price.toFixed(8);
+      this.setState({
+        btcPrice,
+      });
+    }
+  }
+
+  updateCurrencyAmt(evt) {
+    this.setState({
+      currencyAmt: evt.target.value,
+    });
+    this.calcFX(this.state.currency, evt.target.value);
+  }
+
+  clearCurrencyAmt() {
+    // only clear it on the first click
+    if (this.state.clearDisabled) {
+      return;
+    }
+    this.setState({
+      currencyAmt: '',
+      clearDisabled: true,
+    });
+  }
+
+  changeCurrency(currency) {
+    this.setState({
+      currency,
+    });
+    this.calcFX(currency, this.state.currencyAmt);
+  }
+
   renderInvoice() {
-    const { code, loading, error, status } = this.state;
+    const { price, code, loading, error, status } = this.state;
     if (error) {
       return <div className="info red">{error}</div>;
     }
@@ -55,14 +125,30 @@ export default class Invoicer extends Component {
     if (status) {
       return <Status status={status} />;
     }
-    return <QrCode invoice={code.invoice} />;
+    return <QrCode invoice={code.invoice} price={price} />;
   }
+
   render() {
     const { loading } = this.state;
     return (
       <div>
         {this.renderInvoice()}
-        {!loading && <button type="button" onClick={this.generateInvoice}>Generate New Invoice</button>}
+        <button type="button" onClick={() => this.changeCurrency('USD')}>Dollar</button>
+        <button type="button" onClick={() => this.changeCurrency('EUR')}>Euro</button>
+        <button type="button" onClick={() => this.changeCurrency('THB')}>Baht</button>
+        <span>Amount in BTC: {this.state.btcPrice}</span>
+        {
+          <input
+            value={this.state.currencyAmt}
+            onClick={this.clearCurrencyAmt.bind(this)}
+            onChange={evt => this.updateCurrencyAmt(evt)}
+          />
+        }
+        {!loading && (
+          <button type="button" onClick={this.generateInvoice}>
+            Create bill
+          </button>
+        )}
       </div>
     );
   }

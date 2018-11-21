@@ -10,6 +10,6 @@ export default class Status extends Component {
     if (status === 'paid') {
       return <div className="info green">Thanks! <br /> We received your donation.</div>;
     }
-    return <div className="info red">Sorry! <br /> The invoice expired!</div>;
+    return <div className="info red">Sorry! <br /> The invoice expired. <br /> Please try again.</div>;
   }
 }
