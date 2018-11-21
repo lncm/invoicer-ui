@@ -14,7 +14,7 @@ const defaultState = {
   error: null,
   status: null,
   price: null,
-  currencyAmt: 'Amount',
+  currencyAmount: 'Amount',
   clearDisabled: false,
   btcPrice: '0.00000000',
   currency: 'THB',
@@ -91,7 +91,7 @@ export default class Invoicer extends Component {
 
   updateCurrencyAmount(evt) {
     this.setState({
-      currencyAmt: evt.target.value,
+      currencyAmount: evt.target.value,
     });
     this.calcFX(this.state.currency, evt.target.value);
   }
@@ -102,7 +102,7 @@ export default class Invoicer extends Component {
       return;
     }
     this.setState({
-      currencyAmt: '',
+      currencyAmount: '',
       clearDisabled: true,
     });
   }
@@ -111,7 +111,7 @@ export default class Invoicer extends Component {
     this.setState({
       currency,
     });
-    this.calcFX(currency, this.state.currencyAmt);
+    this.calcFX(currency, this.state.currencyAmount);
   }
 
   renderInvoice() {
@@ -139,9 +139,9 @@ export default class Invoicer extends Component {
         <span>Amount in BTC: {this.state.btcPrice}</span>
         {
           <input
-            value={this.state.currencyAmt}
-            onClick={this.clearCurrencyAmt.bind(this)}
-            onChange={evt => this.updateCurrencyAmt(evt)}
+            value={this.state.currencyAmount}
+            onClick={this.clearCurrencyAmount.bind(this)}
+            onChange={evt => this.updateCurrencyAmount(evt)}
           />
         }
         {!loading && (
