@@ -138,11 +138,14 @@ export default class Invoicer extends Component {
         <button type="button" onClick={() => this.changeCurrency('THB')}>Baht</button>
         <span>Amount in BTC: {this.state.btcPrice}</span>
         {
-          <input
-            value={this.state.currencyAmount}
-            onClick={this.clearCurrencyAmount.bind(this)}
-            onChange={evt => this.updateCurrencyAmount(evt)}
-          />
+          <div>
+            <input
+              value={this.state.currencyAmount}
+              onClick={this.clearCurrencyAmount.bind(this)}
+              onChange={evt => this.updateCurrencyAmount(evt)}
+            />
+            <span>{this.state.currency}</span>
+          </div>
         }
         {!loading && (
           <button type="button" onClick={this.generateInvoice}>
