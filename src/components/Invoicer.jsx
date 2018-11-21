@@ -89,14 +89,14 @@ export default class Invoicer extends Component {
     }
   }
 
-  updateCurrencyAmt(evt) {
+  updateCurrencyAmount(evt) {
     this.setState({
       currencyAmt: evt.target.value,
     });
     this.calcFX(this.state.currency, evt.target.value);
   }
 
-  clearCurrencyAmt() {
+  clearCurrencyAmount() {
     // only clear it on the first click
     if (this.state.clearDisabled) {
       return;
