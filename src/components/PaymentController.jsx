@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { newInvoice, newDonation, awaitStatus, getPrice } from '../api';
 
-import MerchantView from './MerchantView';
-
 import EnterAmount from './EnterAmount';
 import FiatAmount from './FiatAmount';
 import ExchangeRate from './ExchangeRate';
@@ -94,7 +92,7 @@ class PaymentController extends Component {
             <Logo/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <QRCodePending/>
-            <StatusMessage message="Preparing Bill"/>
+            <StatusMessage message="Preparing Bill" displaySpinner={true}/>
           </div>
         );
       case paymentEnum.GENERATING_INVOICE:
@@ -105,7 +103,7 @@ class PaymentController extends Component {
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
             <QRCodePending/>
-            <StatusMessage message="Generating Bill"/>
+            <StatusMessage message="Generating Bill" displaySpinner={true}/>
           </div>
         );
       case paymentEnum.REQUESTING_PAYMENT:
@@ -116,7 +114,7 @@ class PaymentController extends Component {
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
             <QRCodeView invoice={this.state.code.invoice}/>
-            <StatusMessage message="Please Pay Bill"/>
+            <StatusMessage message="Please Pay Bill" displaySpinner={true}/>
           </div>
         );
       case paymentEnum.PAID:
@@ -127,7 +125,7 @@ class PaymentController extends Component {
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
             <QRCodePaid/>
-            <StatusMessage message="Payment Received"/>
+            <StatusMessage message="Payment Received" displaySpinner={false}/>
             </div>
           );
       case paymentEnum.INVOICE_EXPIRED:
