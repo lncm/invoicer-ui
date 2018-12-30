@@ -1,15 +1,165 @@
 @import '../../../node_modules/normalize-scss/sass/normalize/import-now';
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 $mobileBreakpoint: 600px;
 $boldWeight: 500;
 $normalWeight: 300;
 
 body {
-  background: #f7f7f7;
+  background: #white;
   font-family: 'Roboto', sans-serif;
   font-weight: 100;
   line-height: 1.5;
 }
+
+// TODO replace the absolute values used in the demo, with responsive design
+
+#ea-main {
+    position: absolute;
+    left: 342px;
+    top: 50px;
+}
+
+#ea-enter-amount {
+  position: absolute;
+  width: 400px;
+  font-size: 28px;
+  font-weight: 500;
+  left: 0px;
+  top: 0px;
+}
+
+#ea-number-input {
+  position: absolute;
+  left: 0px;
+  top: 80px;
+  width: 40px;
+}
+
+#ea-fiat-currency {
+  position: absolute;
+  font-size: 16px;
+  left: 150px;
+  top: 88px;
+}
+
+#ea-go-button {
+  position: absolute;
+  font-size: 16px;
+  left: 258px;
+  top: 80px;
+}
+
+#fa-main {
+    position: absolute;
+    left: 40px;
+    top: 180px;
+}
+
+#fa-title {
+    position: absolute;
+    width: 200px;
+    font-size: 20px;
+    font-weight: 500;
+    left: 0px;
+    top: 0px;
+}
+
+#fa-value {
+    position: absolute;
+    font-size: 20px;
+    left: 0px;
+    top: 32px;
+}
+
+#er-main {
+    position: absolute;
+    left: 40px;
+    top: 280px;
+}
+
+#er-title {
+    position: absolute;
+    width: 200px;
+    font-size: 20px;
+    font-weight: 500;
+    left: 0px;
+    top: 0px;
+}
+
+#er-value {
+    position: absolute;
+    font-size: 20px;
+    left: 0px;
+    top: 32px;
+}
+
+#ba-main {
+    position: absolute;
+    left: 40px;
+    top: 380px;
+}
+
+#ba-title {
+    position: absolute;
+    width: 400px;
+    font-size: 20px;
+    font-weight: 500;
+    left: 0px;
+    top: 0px;
+}
+
+#ba-value {
+    position: absolute;
+    font-size: 20px;
+    left: 0px;
+    top: 32px;
+}
+
+#qr-main {
+    position: absolute;
+    left: 361px;
+    top: 40px;
+}
+
+#lo-main {
+    position: absolute;
+    width: 400px;
+    left: 40px;
+    top: 40px;
+
+    img.logo {
+      max-width: 100%;
+      height: 124px;
+    }
+}
+
+#sm-main {
+    position: absolute;
+    left: 40px;
+    top: 420px;
+}
+
+#sm-message {
+    position: absolute;
+    font-size: 20px;
+    width: 400px;
+    font-size: 20px;
+    font-weight: 500;
+
+    left: 0px;
+    top: 180px;
+}
+
+#sm-spinner {
+    position: absolute;
+
+    left: 0px;
+    top: 60px;
+}
+
+
 
 h1,h2 { font-weight: $boldWeight; }
 h3,h4,h5,h6,a,strong,b { font-weight: $normalWeight; }

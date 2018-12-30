@@ -1,7 +1,7 @@
 import { baseUrl, donationDesc, invoiceDesc, expire } from './config';
 
-export async function newInvoice(amount) {
-  return (await fetch(`${baseUrl}/invoice?amount=${amount}&desc=${invoiceDesc}`)).json();
+export async function newInvoice(amount, description) {
+  return (await fetch(`${baseUrl}/invoice?amount=${amount}&desc=${description}`)).json();
 }
 
 export async function newDonation() {
