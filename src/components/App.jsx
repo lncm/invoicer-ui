@@ -1,13 +1,24 @@
 import React from 'react';
-import logo from '../assets/images/logo.png';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import Home from './Home'
 import PaymentController from './PaymentController';
+import ViewTransactions from './ViewTransactions';
+import Settings from './Settings';
+import About from './About';
+import Help from './Help';
 
 export default () => {
-
   return (
-    <div>
-      <PaymentController />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path='/' component={Home}/>
+        <Route path="/payBill" component={PaymentController}/>
+        <Route path="/viewTransactions" component={ViewTransactions}/>
+        <Route path="/settings" component={Settings}/>
+        <Route path="/about" component={About}/>
+        <Route path="/help" component={Help}/>
+      </Switch>
+    </Router>
   );
 };

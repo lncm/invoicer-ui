@@ -2,9 +2,12 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
-$mobileBreakpoint: 600px;
-$boldWeight: 500;
-$normalWeight: 300;
+$titleSize: 28px;
+$titleWeight: 500;
+
+$labelSize: 20px;
+$labelWeight: 500;
+
 
 body {
   background: #white;
@@ -24,8 +27,8 @@ body {
 #ea-enter-amount {
   position: absolute;
   width: 400px;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
   left: 0px;
   top: 0px;
 }
@@ -60,8 +63,8 @@ body {
 #fa-title {
     position: absolute;
     width: 200px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: $labelSize;
+    font-weight: $labelWeight;
     left: 0px;
     top: 0px;
 }
@@ -82,8 +85,8 @@ body {
 #er-title {
     position: absolute;
     width: 200px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: $labelSize;
+    font-weight: $labelWeight;
     left: 0px;
     top: 0px;
 }
@@ -104,8 +107,8 @@ body {
 #ba-title {
     position: absolute;
     width: 400px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: $labelSize;
+    font-weight: $labelWeight;
     left: 0px;
     top: 0px;
 }
@@ -119,8 +122,8 @@ body {
 
 #qr-main {
     position: absolute;
-    left: 361px;
-    top: 40px;
+    left: 431px;
+    top: 120px;
 }
 
 #lo-main {
@@ -145,8 +148,8 @@ body {
     position: absolute;
     font-size: 20px;
     width: 400px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: $labelSize;
+    font-weight: $labelWeight;
 
     left: 0px;
     top: 180px;
@@ -159,72 +162,132 @@ body {
     top: 60px;
 }
 
+#ho-buttons {
+    position: absolute;
+    left: 300px;
+    top: 40px;
 
-
-h1,h2 { font-weight: $boldWeight; }
-h3,h4,h5,h6,a,strong,b { font-weight: $normalWeight; }
-h3,h4,h5 { margin: 0.2em 0; }
-h3 a { font-weight: $boldWeight; }
-
-bold {
-  font-weight: bold;
+    font-size: $titleSize;
+    font-weight: $titleWeight;
 }
 
-italic {
-  font-style: italic;
+#ho-pay-bill {
+  position: absolute;
+  width: 400px;
+  left: 0px;
+  top: 0px;
 }
 
-a {
-  text-decoration: underline;
-  color: inherit;
-  &:hover {
-    text-decoration: underline;
-  }
+#ho-view-transactions {
+  position: absolute;
+  width: 400px;
+  left: 0px;
+  top: 80px;
 }
 
-#layout-container {
-  margin: 1em auto;
-  max-width: 650px;
-  padding: 1.5em;
-  border: 1px solid #efefef;
-  background: white;
+#ho-settings {
+  position: absolute;
+  width: 400px;
+  left: 0px;
+  top: 160px;
 }
 
-#main-header {
-  font-size: 1.3vh;
-  text-align: center;
-  margin-bottom: 1em;
-  img.logo {
-    max-width: 100%;
-    height: 10vh;
-  }
-  h1 {
-    margin: 0;
-    line-height: 1em;
-    small { font-size: 0.6em; }
-  }
+#ho-about {
+  position: absolute;
+  width: 400px;
+  left: 0px;
+  top: 240px;
 }
 
-.content {
-  text-align: center;
+#ho-help {
+  position: absolute;
+  width: 400px;
+  left: 0px;
+  top: 320px;
 }
 
-.info {
-  font-size: 1.2em;
-  display: block;
-  margin: auto;
-  font-weight: bold;
-  font-size: 1.6vh;
-  margin-bottom: 1em;
-  color: blue;
-  &.red {
-    color:red;
-  }
-  &.green {
-    color: green;
-  }
+#hb-main {
+  position: absolute;
+  width: 0px;
+  left: 984px;
+  top: 40px;
 }
 
-button {
-  padding: 0.5em;
+#hb-button {
+  position: relative;
+  right: 140px;
+  top: 0px;
+}
+
+#cb-main {
+  position: absolute;
+  width: 100px;
+  left: 984px;
+  top: 40px;
+}
+
+#cb-button {
+  position: relative;
+  right: 270px;
+  top: 0px;
+}
+
+#nb-main {
+  position: absolute;
+  width: 400px;
+  left: 984px;
+  top: 40px;
+}
+
+#nb-button {
+  position: relative;
+  right: 270px;
+  top: 0px;
+}
+
+#qt-main {
+  position: absolute;
+  width: 260px;
+  left: 984px;
+  top: 40px;
+}
+
+#qt-switch {
+  position: relative;
+  font-size: $labelSize;
+  font-weight: $labelWeight;
+  right: 540px;
+  top: 0px;
+}
+
+#vt-title {
+  position: absolute;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
+  left: 440px;
+  top: 40px;
+}
+
+#se-title {
+  position: absolute;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
+  left: 440px;
+  top: 40px;
+}
+
+#ab-title {
+  position: absolute;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
+  left: 440px;
+  top: 40px;
+}
+
+#hp-title {
+  position: absolute;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
+  left: 440px;
+  top: 40px;
 }

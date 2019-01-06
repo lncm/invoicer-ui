@@ -11,6 +11,10 @@ import QRCodeView from './QRCodeView';
 import QRCodePaid from './QRCodePaid';
 import StatusMessage from './StatusMessage';
 import Logo from './Logo';
+import HomeButton from './HomeButton';
+import BackButton from './BackButton';
+import NextBillButton from './NextBillButton';
+import QRCodeType from './QRCodeType';
 
 const paymentEnum = {
     REQUESTING_AMOUNT: 0,
@@ -30,6 +34,14 @@ class PaymentController extends Component {
     this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', code: '', paymentStatus : paymentEnum.REQUESTING_AMOUNT }
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
+    this.handleNewAmount = this.handleNewAmount.bind(this);
+  }
+
+  handleNewAmount() {
+    this.setState({
+      fiatAmount: '',
+      paymentStatus: paymentEnum.REQUESTING_AMOUNT
+    });
   }
 
   handleAmountChange(fiatAmount) {
@@ -90,6 +102,9 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo/>
+            <HomeButton />
+            <BackButton onBack={this.handleNewAmount}/>
+            <QRCodeType />
             <FiatAmount amount={this.state.fiatAmount}/>
             <QRCodePending/>
             <StatusMessage message="Preparing Bill" displaySpinner={true}/>
@@ -99,6 +114,9 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo/>
+            <HomeButton />
+            <BackButton onBack={this.handleNewAmount}/>
+            <QRCodeType />
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
@@ -110,6 +128,9 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo/>
+            <HomeButton />
+            <BackButton onBack={this.handleNewAmount}/>
+            <QRCodeType />
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
@@ -121,6 +142,8 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo/>
+            <HomeButton />
+            <NextBillButton onNewAmount={this.handleNewAmount}/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
@@ -132,6 +155,8 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo/>
+            <HomeButton />
+            <NextBillButton onNewAmount={this.handleNewAmount}/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>

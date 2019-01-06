@@ -5,7 +5,7 @@ const QRCodePaid = () => {
 
   return (
     <div id="qr-main">
-      <img src={tick} alt="Invoice Paid" style={{ width: '583px', height: '583px', maxHeight: '583px' }} />
+      <img src={tick} alt="Invoice Paid" style={{ width: '503px', height: '503px', maxHeight: '503px' }} />
     </div>
   );
 
