@@ -8,8 +8,8 @@ class QRCodeType extends Component {
     return (
       <div id="qt-main">
         <div id="qt-switch">
-          <Switch large={true} inline={true} labelElement={"Bitcoin"} defaultChecked={true} />
-          <Switch large={true} inline={true} labelElement={"Lightning"} defaultChecked={true} />
+          <Switch large={true} disabled={true} inline={true} labelElement={"Bitcoin"} checked={this.props.bitcoinQRCode} />
+          <Switch large={true} disabled={true} inline={true} labelElement={"Lightning"} checked={this.props.lightningQRCode} />
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FocusStyleManager, AnchorButton, NumericInput } from '@blueprintjs/core';
+import { FocusStyleManager, AnchorButton, NumericInput, Switch } from '@blueprintjs/core';
 import Logo from './Logo'
 import HomeButton from './HomeButton'
 
@@ -10,10 +10,21 @@ export default class EnterAmount extends Component {
   constructor(props) {
     super(props);
     this.handleValueChange = this.handleValueChange.bind(this);
+    this.handleBitcoinQRCodeChange = this.handleBitcoinQRCodeChange.bind(this);
+    this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
   }
 
   handleValueChange(valueAsNumber) {
     this.props.onAmountChange(valueAsNumber);
+  }
+
+
+  handleBitcoinQRCodeChange() {
+    this.props.onBitcoinQRCodeChange();
+  }
+
+  handleLightningQRCodeChange() {
+    this.props.onLightningQRCodeChange();
   }
 
   render() {
@@ -28,8 +39,12 @@ export default class EnterAmount extends Component {
             </div>
             <div id="ea-fiat-currency">{this.props.fiatCurrency}</div>
             <div id="ea-go-button">
-              <AnchorButton disabled={!(this.props.fiatAmount > 0)} large={true} intent="primary" rightIcon="arrow-right" text="Go" onClick={this.props.onAmountConfirm.bind(this)}>
+              <AnchorButton disabled={(!(this.props.fiatAmount > 0)) || (!this.props.bitcoinQRCode && !this.props.lightningQRCode)} large={true} intent="primary" rightIcon="arrow-right" text="Generate Bill" onClick={this.props.onAmountConfirm.bind(this)}>
               </AnchorButton>
+            </div>
+            <div id="ea-qrcodetype">
+              <Switch large={true} inputRef="foo" inline={true} labelElement={"Bitcoin"} checked={this.props.bitcoinQRCode} onChange={this.handleBitcoinQRCodeChange}/>
+              <Switch large={true} inline={true} labelElement={"Lightning"} checked={this.props.lightningQRCode} onChange={this.handleLightningQRCodeChange}/>
             </div>
         </div>
 

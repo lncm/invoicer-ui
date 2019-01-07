@@ -31,15 +31,32 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', code: '', paymentStatus : paymentEnum.REQUESTING_AMOUNT }
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', code: '', bitcoinQRCode: true, lightningQRCode: true, paymentStatus : paymentEnum.REQUESTING_AMOUNT }
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
+    this.handleBitcoinQRCodeChange = this.handleBitcoinQRCodeChange.bind(this);
+    this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
+  }
+
+  handleBitcoinQRCodeChange() {
+    this.setState((state) => {
+      return {
+        bitcoinQRCode : !this.state.bitcoinQRCode
+      }
+    });
+  }
+
+  handleLightningQRCodeChange(lightningQRCode) {
+    this.setState((state) => {
+      return {
+        lightningQRCode : !this.state.lightningQRCode
+      }
+    });
   }
 
   handleNewAmount() {
     this.setState({
-      fiatAmount: '',
       paymentStatus: paymentEnum.REQUESTING_AMOUNT
     });
   }
@@ -69,7 +86,7 @@ class PaymentController extends Component {
 
   async generateInvoice() {
     const description = "Payment of " + this.state.fiatAmount + " THB to Food 4 Thought";
-    const code = await newInvoice(this.state.bitcoinAmount * 100000000, description);
+    const code = await newInvoice(this.state.bitcoinAmount * 100000000, description, this.state.qrCodeType);
     this.setState({
       code,
       paymentStatus: paymentEnum.REQUESTING_PAYMENT
@@ -77,6 +94,7 @@ class PaymentController extends Component {
   }
 
   async checkInvoiceStatus() {
+    //this.checkForRegenerateInvoice();
     const status = await awaitStatus(this.state.code.hash);
     if (status === 'paid') {
       this.setState({
@@ -95,7 +113,7 @@ class PaymentController extends Component {
       case paymentEnum.REQUESTING_AMOUNT:
         return (
           <div>
-            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" onAmountChange={this.handleAmountChange} onAmountConfirm={this.handleAmountConfirm}/>
+            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode} onAmountChange={this.handleAmountChange} onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange}/>
           </div>
         );
       case paymentEnum.FINDING_EXCHANGE_RATE:
@@ -104,7 +122,7 @@ class PaymentController extends Component {
             <Logo/>
             <HomeButton />
             <BackButton onBack={this.handleNewAmount}/>
-            <QRCodeType />
+            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode}/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <QRCodePending/>
             <StatusMessage message="Preparing Bill" displaySpinner={true}/>
@@ -116,7 +134,7 @@ class PaymentController extends Component {
             <Logo/>
             <HomeButton />
             <BackButton onBack={this.handleNewAmount}/>
-            <QRCodeType />
+            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode}/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
@@ -130,7 +148,7 @@ class PaymentController extends Component {
             <Logo/>
             <HomeButton />
             <BackButton onBack={this.handleNewAmount}/>
-            <QRCodeType />
+            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode}/>
             <FiatAmount amount={this.state.fiatAmount}/>
             <ExchangeRate rate={this.state.exchangeRate}/>
             <BitcoinAmount amount={this.state.bitcoinAmount}/>
