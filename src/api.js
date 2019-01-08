@@ -26,3 +26,8 @@ export async function awaitStatus(invoiceId) {
 export async function getPrice() {
   return (await fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=THB,USD,EUR')).json();
 }
+
+export async function getHistory() {
+  return '';
+  // return (await fetch(`${baseUrl}/history`)).json();
+}

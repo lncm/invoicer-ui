@@ -1,6 +1,7 @@
 @import '../../../node_modules/normalize-scss/sass/normalize/import-now';
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/table/lib/css/table.css";
 
 $titleSize: 28px;
 $titleWeight: 500;
@@ -274,6 +275,14 @@ body {
   font-weight: $titleWeight;
   left: 440px;
   top: 40px;
+}
+
+#vt-table {
+  position: absolute;
+  font-size: $titleSize;
+  font-weight: $titleWeight;
+  left: 40px;
+  top: 200px;
 }
 
 #se-title {
