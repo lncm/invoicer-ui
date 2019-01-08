@@ -28,6 +28,5 @@ export async function getPrice() {
 }
 
 export async function getHistory() {
-  return '';
-  // return (await fetch(`${baseUrl}/history`)).json();
+  return (await fetch(`${baseUrl}/history`)).json();
 }
