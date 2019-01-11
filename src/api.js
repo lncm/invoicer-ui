@@ -9,7 +9,7 @@ export async function newInvoice(amount, description, bitcoinQRCode, lightningQR
   } else if (lightningQRCode) {
     fetchString = `${baseUrl}/payment/ln/invoice?amount=${amount}&desc=${description}`;
   } else {
-      // TODO handle error
+    // TODO handle error
   }
 
   return (await fetch(fetchString)).json();

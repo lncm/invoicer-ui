@@ -3,7 +3,6 @@ import { AnchorButton } from '@blueprintjs/core';
 import Logo from './Logo';
 
 class Home extends Component {
-
   constructor(props) {
     super(props);
     this.handlePayBillClicked = this.handlePayBillClicked.bind(this);
@@ -14,23 +13,23 @@ class Home extends Component {
   }
 
   handlePayBillClicked() {
-    this.props.history.push("/payBill");
+    this.props.history.push('/payBill');
   }
 
   handleViewTransactionsClicked() {
-    this.props.history.push("/viewTransactions");
+    this.props.history.push('/viewTransactions');
   }
 
   handleSettingsClicked() {
-    this.props.history.push("/settings");
+    this.props.history.push('/settings');
   }
 
   handleAboutClicked() {
-    this.props.history.push("/about");
+    this.props.history.push('/about');
   }
 
   handleHelpClicked() {
-    this.props.history.push("/help");
+    this.props.history.push('/help');
   }
 
   render() {
@@ -41,28 +40,23 @@ class Home extends Component {
         <div id="ho-buttons">
 
           <div id="ho-pay-bill">
-            <AnchorButton large={true} intent="primary" rightIcon="arrow-right" text="Pay Bill" onClick={this.handlePayBillClicked}>
-            </AnchorButton>
+            <AnchorButton large intent="primary" rightIcon="arrow-right" text="Pay Bill" onClick={this.handlePayBillClicked} />
           </div>
 
           <div id="ho-view-transactions">
-            <AnchorButton large={true} intent="primary" rightIcon="list" text="View Transaction History" onClick={this.handleViewTransactionsClicked}>
-            </AnchorButton>
+            <AnchorButton large intent="primary" rightIcon="list" text="View Transaction History" onClick={this.handleViewTransactionsClicked} />
           </div>
 
           <div id="ho-settings">
-            <AnchorButton large={true} intent="primary" rightIcon="settings" text="Settings" onClick={this.handleSettingsClicked}>
-            </AnchorButton>
+            <AnchorButton large intent="primary" rightIcon="settings" text="Settings" onClick={this.handleSettingsClicked} />
           </div>
 
           <div id="ho-about">
-            <AnchorButton large={true} intent="primary" rightIcon="compressed" text="About" onClick={this.handleAboutClicked}>
-            </AnchorButton>
+            <AnchorButton large intent="primary" rightIcon="compressed" text="About" onClick={this.handleAboutClicked} />
           </div>
 
           <div id="ho-help">
-            <AnchorButton large={true} intent="primary" rightIcon="help" text="Help" onClick={this.handleHelpClicked}>
-            </AnchorButton>
+            <AnchorButton large intent="primary" rightIcon="help" text="Help" onClick={this.handleHelpClicked} />
           </div>
         </div>
       </div>

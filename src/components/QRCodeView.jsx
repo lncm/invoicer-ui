@@ -7,9 +7,9 @@ const QRCodeView = ({ invoice }) => {
 
   return (
     <div id="qr-main">
-     <QRCode value={uri} renderAs="svg" style={{ width: '503px', height: '503px', maxHeight: '503px' }} />
+      <QRCode value={uri} renderAs="svg" style={{ width: '503px', height: '503px', maxHeight: '503px' }} />
     </div>
   );
-}
+};
 
 export default QRCodeView;

@@ -3,7 +3,6 @@ import Logo from './Logo';
 import HomeButton from './HomeButton';
 
 class About extends Component {
-
   render() {
     return (
       <div>

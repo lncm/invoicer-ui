@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
+import { Cell, Column, Table, TableLoadingOption, TruncatedFormat } from '@blueprintjs/table';
 import Logo from './Logo';
 import HomeButton from './HomeButton';
-import { Cell, Column, Table, TableLoadingOption, TruncatedFormat } from "@blueprintjs/table";
 import { getHistory } from '../api';
 
 const FORMAT_OPTIONS = {
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    month: "short",
-    second: "2-digit",
-    year: "numeric",
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  month: 'short',
+  second: '2-digit',
+  year: 'numeric',
 };
 
 class ViewTransactions extends Component {
-
   constructor(props) {
     super(props);
     this.state = { history: '' };
@@ -30,7 +29,7 @@ class ViewTransactions extends Component {
   async refreshTransactionHistory() {
     const history = await getHistory();
     this.setState({
-      history
+      history,
     });
   }
 
@@ -39,50 +38,50 @@ class ViewTransactions extends Component {
     if (this.state.history != '') {
       const row = this.state.history[rowIndex];
       if (row.is_paid) {
-        state = "Paid";
+        state = 'Paid';
       } else if (row.is_expired) {
-        state = "Expired";
+        state = 'Expired';
       } else {
-        state = "Unpaid"
+        state = 'Unpaid';
       }
     }
-    return <Cell>{state}</Cell>
-  };
+    return <Cell>{state}</Cell>;
+  }
 
   cellRendererDescription(rowIndex) {
     let description = '';
     if (this.state.history != '') {
       description = this.state.history[rowIndex].description;
     }
-    return <Cell>{description}</Cell>
-  };
+    return <Cell>{description}</Cell>;
+  }
 
   cellRendererBitcoinAmount(rowIndex) {
     let amount = '';
     if (this.state.history != '') {
       const satAmount = this.state.history[rowIndex].amount;
       if (satAmount) {
-        amount = (satAmount/ 100000000).toFixed(8);
+        amount = (satAmount / 100000000).toFixed(8);
       }
     }
-    return <Cell>{amount}</Cell>
-  };
+    return <Cell>{amount}</Cell>;
+  }
 
   cellRendererDate(rowIndex) {
     if (this.state.history != '') {
       const paidAt = this.state.history[rowIndex].paid_at;
       if (paidAt) {
         const paidDate = new Date(paidAt);
-        const formattedPaidDate = paidDate.toLocaleString("en-US", FORMAT_OPTIONS);
-        return <Cell><TruncatedFormat>{formattedPaidDate}</TruncatedFormat></Cell>
+        const formattedPaidDate = paidDate.toLocaleString('en-US', FORMAT_OPTIONS);
+        return <Cell><TruncatedFormat>{formattedPaidDate}</TruncatedFormat></Cell>;
       }
     }
-    return <Cell></Cell>
-  };
+    return <Cell />;
+  }
 
   cellRendererType(rowIndex) {
-    return <Cell>Lightning</Cell>
-  };
+    return <Cell>Lightning</Cell>;
+  }
 
   getLoadingOptions() {
     const loadingOptions = [];
@@ -95,7 +94,6 @@ class ViewTransactions extends Component {
   }
 
   getRowLength() {
-
     if (this.state.history == '') {
       return 1;
     }
@@ -104,7 +102,6 @@ class ViewTransactions extends Component {
   }
 
   render() {
-
     return (
       <div>
         <Logo />
@@ -115,12 +112,12 @@ class ViewTransactions extends Component {
         </div>
 
         <div id="vt-table">
-          <Table numRows={this.getRowLength()} loadingOptions={this.getLoadingOptions()} >
-          <Column name="Status" cellRenderer={this.cellRendererStatus}/>
-          <Column name="Description" cellRenderer={this.cellRendererDescription}/>
-          <Column name="Bitcoin Amount" cellRenderer={this.cellRendererBitcoinAmount}/>
-          <Column name="Paid Date" cellRenderer={this.cellRendererDate}/>
-          <Column name="Type" cellRenderer={this.cellRendererType}/>
+          <Table numRows={this.getRowLength()} loadingOptions={this.getLoadingOptions()}>
+            <Column name="Status" cellRenderer={this.cellRendererStatus} />
+            <Column name="Description" cellRenderer={this.cellRendererDescription} />
+            <Column name="Bitcoin Amount" cellRenderer={this.cellRendererBitcoinAmount} />
+            <Column name="Paid Date" cellRenderer={this.cellRendererDate} />
+            <Column name="Type" cellRenderer={this.cellRendererType} />
           </Table>
         </div>
       </div>
