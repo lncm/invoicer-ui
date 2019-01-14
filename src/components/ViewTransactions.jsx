@@ -17,13 +17,33 @@ class ViewTransactions extends Component {
   constructor(props) {
     super(props);
     this.state = { history: '' };
-    this.refreshTransactionHistory();
 
     this.cellRendererStatus = this.cellRendererStatus.bind(this);
     this.cellRendererDescription = this.cellRendererDescription.bind(this);
     this.cellRendererBitcoinAmount = this.cellRendererBitcoinAmount.bind(this);
     this.cellRendererDate = this.cellRendererDate.bind(this);
-    this.cellRendererType = this.cellRendererType.bind(this);
+  }
+
+  componentDidMount() {
+    this.refreshTransactionHistory();
+  }
+
+  getRowLength() {
+    if (this.state.history === '') {
+      return 1;
+    }
+
+    return this.state.history.length;
+  }
+
+  getLoadingOptions() {
+    const loadingOptions = [];
+    if (this.state.history === '') {
+      loadingOptions.push(TableLoadingOption.CELLS);
+      loadingOptions.push(TableLoadingOption.ROW_HEADERS);
+    }
+
+    return loadingOptions;
   }
 
   async refreshTransactionHistory() {
@@ -35,7 +55,7 @@ class ViewTransactions extends Component {
 
   cellRendererStatus(rowIndex) {
     let state = '';
-    if (this.state.history != '') {
+    if (this.state.history !== '') {
       const row = this.state.history[rowIndex];
       if (row.is_paid) {
         state = 'Paid';
@@ -50,15 +70,16 @@ class ViewTransactions extends Component {
 
   cellRendererDescription(rowIndex) {
     let description = '';
-    if (this.state.history != '') {
-      description = this.state.history[rowIndex].description;
+    if (this.state.history !== '') {
+      const row = this.state.history[rowIndex];
+      ({ description } = row);
     }
     return <Cell>{description}</Cell>;
   }
 
   cellRendererBitcoinAmount(rowIndex) {
     let amount = '';
-    if (this.state.history != '') {
+    if (this.state.history !== '') {
       const satAmount = this.state.history[rowIndex].amount;
       if (satAmount) {
         amount = (satAmount / 100000000).toFixed(8);
@@ -68,7 +89,7 @@ class ViewTransactions extends Component {
   }
 
   cellRendererDate(rowIndex) {
-    if (this.state.history != '') {
+    if (this.state.history !== '') {
       const paidAt = this.state.history[rowIndex].paid_at;
       if (paidAt) {
         const paidDate = new Date(paidAt);
@@ -77,28 +98,6 @@ class ViewTransactions extends Component {
       }
     }
     return <Cell />;
-  }
-
-  cellRendererType(rowIndex) {
-    return <Cell>Lightning</Cell>;
-  }
-
-  getLoadingOptions() {
-    const loadingOptions = [];
-    if (this.state.history == '') {
-      loadingOptions.push(TableLoadingOption.CELLS);
-      loadingOptions.push(TableLoadingOption.ROW_HEADERS);
-    }
-
-    return loadingOptions;
-  }
-
-  getRowLength() {
-    if (this.state.history == '') {
-      return 1;
-    }
-
-    return this.state.history.length;
   }
 
   render() {
@@ -117,7 +116,7 @@ class ViewTransactions extends Component {
             <Column name="Description" cellRenderer={this.cellRendererDescription} />
             <Column name="Bitcoin Amount" cellRenderer={this.cellRendererBitcoinAmount} />
             <Column name="Paid Date" cellRenderer={this.cellRendererDate} />
-            <Column name="Type" cellRenderer={this.cellRendererType} />
+            <Column name="Type">Lightning</Column>
           </Table>
         </div>
       </div>

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Spinner } from '@blueprintjs/core';
-import logo from '../assets/images/logo.png';
+import PropTypes from 'prop-types';
 
 const StatusMessage = ({ message, displaySpinner }) => {
   return (
@@ -9,6 +9,11 @@ const StatusMessage = ({ message, displaySpinner }) => {
       {displaySpinner && <div id="sm-spinner"><Spinner size={100} /></div>}
     </div>
   );
+};
+
+StatusMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  displaySpinner: PropTypes.bool.isRequired,
 };
 
 export default StatusMessage;

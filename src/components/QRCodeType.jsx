@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch } from '@blueprintjs/core';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class QRCodeType extends Component {
   render() {
@@ -14,5 +15,10 @@ class QRCodeType extends Component {
     );
   }
 }
+
+QRCodeType.propTypes = {
+  bitcoinQRCode: PropTypes.bool.isRequired,
+  lightningQRCode: PropTypes.bool.isRequired,
+};
 
 export default withRouter(QRCodeType);

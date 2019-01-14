@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FocusStyleManager, AnchorButton, NumericInput, Switch } from '@blueprintjs/core';
+import PropTypes from 'prop-types';
 import Logo from './Logo';
 import HomeButton from './HomeButton';
 
@@ -11,6 +12,7 @@ export default class EnterAmount extends Component {
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleBitcoinQRCodeChange = this.handleBitcoinQRCodeChange.bind(this);
     this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
+    this.handleAmountConfigm = this.handleAmountConfigm.bind(this);
   }
 
   handleValueChange(valueAsNumber) {
@@ -26,6 +28,10 @@ export default class EnterAmount extends Component {
     this.props.onLightningQRCodeChange();
   }
 
+  handleAmountConfigm() {
+    this.props.onAmountConfirm();
+  }
+
   render() {
     return (
       <div>
@@ -38,7 +44,7 @@ export default class EnterAmount extends Component {
           </div>
           <div id="ea-fiat-currency">{this.props.fiatCurrency}</div>
           <div id="ea-go-button">
-            <AnchorButton disabled={(!(this.props.fiatAmount > 0)) || (!this.props.bitcoinQRCode && !this.props.lightningQRCode)} large intent="primary" rightIcon="arrow-right" text="Generate Bill" onClick={this.props.onAmountConfirm.bind(this)} />
+            <AnchorButton disabled={(!(this.props.fiatAmount > 0)) || (!this.props.bitcoinQRCode && !this.props.lightningQRCode)} large intent="primary" rightIcon="arrow-right" text="Generate Bill" onClick={this.handleAmountConfigm} />
           </div>
           <div id="ea-qrcodetype">
             <Switch large inputRef="foo" inline labelElement="Bitcoin" checked={this.props.bitcoinQRCode} onChange={this.handleBitcoinQRCodeChange} />
@@ -51,3 +57,14 @@ export default class EnterAmount extends Component {
     );
   }
 }
+
+EnterAmount.propTypes = {
+  fiatCurrency: PropTypes.string.isRequired,
+  fiatAmount: PropTypes.number.isRequired,
+  bitcoinQRCode: PropTypes.bool.isRequired,
+  lightningQRCode: PropTypes.bool.isRequired,
+  onAmountConfirm: PropTypes.func.isRequired,
+  onAmountChange: PropTypes.func.isRequired,
+  onBitcoinQRCodeChange: PropTypes.func.isRequired,
+  onLightningQRCodeChange: PropTypes.func.isRequired,
+};

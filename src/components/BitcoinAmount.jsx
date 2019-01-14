@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const BitcoinAmount = ({ amount }) => {
   return (
@@ -7,6 +8,10 @@ const BitcoinAmount = ({ amount }) => {
       <div id="ba-value">{amount}</div>
     </div>
   );
+};
+
+BitcoinAmount.propTypes = {
+  amount: PropTypes.number.isRequired,
 };
 
 export default BitcoinAmount;

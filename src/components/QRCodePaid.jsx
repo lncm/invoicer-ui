@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import tick from '../assets/images/tick.png';
 
 const QRCodePaid = () => {

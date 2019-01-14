@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AnchorButton } from '@blueprintjs/core';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class HomeButton extends Component {
   constructor(props) {
@@ -22,5 +23,11 @@ class HomeButton extends Component {
     );
   }
 }
+
+HomeButton.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default withRouter(HomeButton);

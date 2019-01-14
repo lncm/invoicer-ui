@@ -1,4 +1,4 @@
-import { baseUrl, donationDesc, invoiceDesc, expire } from './config';
+import { baseUrl, donationDesc } from './config';
 
 export async function newInvoice(amount, description, bitcoinQRCode, lightningQRCode) {
   let fetchString;

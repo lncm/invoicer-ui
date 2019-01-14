@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const FiatAmount = ({ amount }) => {
   return (
@@ -7,6 +8,10 @@ const FiatAmount = ({ amount }) => {
       <div id="fa-value">{amount}</div>
     </div>
   );
+};
+
+FiatAmount.propTypes = {
+  amount: PropTypes.number.isRequired,
 };
 
 export default FiatAmount;

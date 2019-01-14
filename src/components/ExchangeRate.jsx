@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ExchangeRate = ({ rate }) => {
   return (
@@ -7,6 +8,10 @@ const ExchangeRate = ({ rate }) => {
       <div id="er-value">{rate}</div>
     </div>
   );
+};
+
+ExchangeRate.propTypes = {
+  rate: PropTypes.number.isRequired,
 };
 
 export default ExchangeRate;

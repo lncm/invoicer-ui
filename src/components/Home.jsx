@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AnchorButton } from '@blueprintjs/core';
+import PropTypes from 'prop-types';
 import Logo from './Logo';
 
 class Home extends Component {
@@ -63,5 +64,11 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Home;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { newInvoice, newDonation, awaitStatus, getPrice } from '../api';
+import { newInvoice, awaitStatus, getPrice } from '../api';
 
 import EnterAmount from './EnterAmount';
 import FiatAmount from './FiatAmount';
@@ -38,18 +38,26 @@ class PaymentController extends Component {
     this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
   }
 
+
+  setCode(code) {
+    this.setState({
+      code,
+      paymentStatus: paymentEnum.REQUESTING_PAYMENT,
+    }, this.checkInvoiceStatus);
+  }
+
   handleBitcoinQRCodeChange() {
-    this.setState((state) => {
+    this.setState((prevState) => {
       return {
-        bitcoinQRCode: !this.state.bitcoinQRCode,
+        bitcoinQRCode: !prevState.bitcoinQRCode,
       };
     });
   }
 
-  handleLightningQRCodeChange(lightningQRCode) {
-    this.setState((state) => {
+  handleLightningQRCodeChange() {
+    this.setState((prevState) => {
       return {
-        lightningQRCode: !this.state.lightningQRCode,
+        lightningQRCode: !prevState.lightningQRCode,
       };
     });
   }
@@ -75,10 +83,10 @@ class PaymentController extends Component {
     const price = await getPrice();
     const exchangeRate = price.THB;
 
-    this.setState((state) => {
+    this.setState((prevState) => {
       return {
         exchangeRate,
-        bitcoinAmount: (this.state.fiatAmount / exchangeRate).toFixed(8),
+        bitcoinAmount: (prevState.fiatAmount / exchangeRate).toFixed(8),
         paymentStatus: paymentEnum.GENERATING_INVOICE,
       };
     }, this.generateInvoice);
@@ -86,15 +94,12 @@ class PaymentController extends Component {
 
   async generateInvoice() {
     const description = `Payment of ${this.state.fiatAmount} THB to Food 4 Thought`;
-    const code = await newInvoice(this.state.bitcoinAmount * 100000000, description, this.state.qrCodeType);
-    this.setState({
-      code,
-      paymentStatus: paymentEnum.REQUESTING_PAYMENT,
-    }, this.checkInvoiceStatus);
+    const code = await newInvoice(this.state.bitcoinAmount * 100000000, description,
+      this.state.qrCodeType);
+    this.setCode(code);
   }
 
   async checkInvoiceStatus() {
-    // this.checkForRegenerateInvoice();
     const status = await awaitStatus(this.state.code.hash);
     if (status === 'paid') {
       this.setState({
@@ -121,7 +126,10 @@ class PaymentController extends Component {
             <Logo />
             <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode} />
+            <QRCodeType
+              bitcoinQRCode={this.state.bitcoinQRCode}
+              lightningQRCode={this.state.lightningQRCode}
+            />
             <FiatAmount amount={this.state.fiatAmount} />
             <QRCodePending />
             <StatusMessage message="Preparing Bill" displaySpinner />
@@ -133,7 +141,10 @@ class PaymentController extends Component {
             <Logo />
             <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode} />
+            <QRCodeType
+              bitcoinQRCode={this.state.bitcoinQRCode}
+              lightningQRCode={this.state.lightningQRCode}
+            />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
@@ -147,7 +158,10 @@ class PaymentController extends Component {
             <Logo />
             <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode} />
+            <QRCodeType
+              bitcoinQRCode={this.state.bitcoinQRCode}
+              lightningQRCode={this.state.lightningQRCode}
+            />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
@@ -181,6 +195,9 @@ class PaymentController extends Component {
             <StatusMessage message="Expired.  Try Again" />
           </div>
         );
+      default:
+        // TODO handle exceptions
+        return '';
     }
   }
 }

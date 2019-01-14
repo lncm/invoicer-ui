@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const QRCodePending = ({ invoice }) => {
+const QRCodePending = () => {
   return (
     <div id="qr-main" />
   );

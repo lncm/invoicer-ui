@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import QRCode from 'qrcode.react';
+import PropTypes from 'prop-types';
 
 const QRCodeView = ({ invoice }) => {
   const uri = `lightning:${invoice}`;
@@ -10,6 +10,10 @@ const QRCodeView = ({ invoice }) => {
       <QRCode value={uri} renderAs="svg" style={{ width: '503px', height: '503px', maxHeight: '503px' }} />
     </div>
   );
+};
+
+QRCodeView.propTypes = {
+  invoice: PropTypes.number.isRequired,
 };
 
 export default QRCodeView;
