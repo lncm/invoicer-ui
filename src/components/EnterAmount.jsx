@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FocusStyleManager, AnchorButton, NumericInput, Switch } from '@blueprintjs/core';
 import PropTypes from 'prop-types';
 import Logo from './Logo';
-import HomeButton from './HomeButton';
+import MenuButton from './MenuButton';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
@@ -18,7 +18,6 @@ export default class EnterAmount extends Component {
   handleValueChange(valueAsNumber) {
     this.props.onAmountChange(valueAsNumber);
   }
-
 
   handleBitcoinQRCodeChange() {
     this.props.onBitcoinQRCodeChange();
@@ -44,7 +43,7 @@ export default class EnterAmount extends Component {
           </div>
           <div id="ea-fiat-currency">{this.props.fiatCurrency}</div>
           <div id="ea-go-button">
-            <AnchorButton disabled={(!(this.props.fiatAmount > 0)) || (!this.props.bitcoinQRCode && !this.props.lightningQRCode)} large intent="primary" rightIcon="arrow-right" text="Generate Bill" onClick={this.handleAmountConfigm} />
+            <AnchorButton disabled={(!(this.props.fiatAmount > 0)) || (!this.props.bitcoinQRCode && !this.props.lightningQRCode)} large intent="primary" icon="arrow-right" text="Generate Bill" onClick={this.handleAmountConfigm} />
           </div>
           <div id="ea-qrcodetype">
             <Switch large inputRef="foo" inline labelElement="Bitcoin" checked={this.props.bitcoinQRCode} onChange={this.handleBitcoinQRCodeChange} />
@@ -52,7 +51,7 @@ export default class EnterAmount extends Component {
           </div>
         </div>
 
-        <HomeButton />
+        <MenuButton />
       </div>
     );
   }

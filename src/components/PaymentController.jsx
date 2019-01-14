@@ -11,7 +11,6 @@ import QRCodeView from './QRCodeView';
 import QRCodePaid from './QRCodePaid';
 import StatusMessage from './StatusMessage';
 import Logo from './Logo';
-import HomeButton from './HomeButton';
 import BackButton from './BackButton';
 import NextBillButton from './NextBillButton';
 import QRCodeType from './QRCodeType';
@@ -124,7 +123,6 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo />
-            <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
             <QRCodeType
               bitcoinQRCode={this.state.bitcoinQRCode}
@@ -139,7 +137,6 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo />
-            <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
             <QRCodeType
               bitcoinQRCode={this.state.bitcoinQRCode}
@@ -156,7 +153,6 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo />
-            <HomeButton />
             <BackButton onBack={this.handleNewAmount} />
             <QRCodeType
               bitcoinQRCode={this.state.bitcoinQRCode}
@@ -173,7 +169,6 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo />
-            <HomeButton />
             <NextBillButton onNewAmount={this.handleNewAmount} />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
@@ -186,7 +181,6 @@ class PaymentController extends Component {
         return (
           <div>
             <Logo />
-            <HomeButton />
             <NextBillButton onNewAmount={this.handleNewAmount} />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />

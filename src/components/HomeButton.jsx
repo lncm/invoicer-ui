@@ -17,7 +17,7 @@ class HomeButton extends Component {
     return (
       <div id="hb-main">
         <div id="hb-button">
-          <AnchorButton large intent="primary" rightIcon="home" text="Home" onClick={this.handleHomeClicked} />
+          <AnchorButton large intent="primary" icon="arrow-left" text="Back" onClick={this.handleHomeClicked} />
         </div>
       </div>
     );

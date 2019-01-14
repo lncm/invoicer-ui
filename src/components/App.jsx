@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from './Home';
 import PaymentController from './PaymentController';
 import ViewTransactions from './ViewTransactions';
 import Settings from './Settings';
@@ -12,8 +11,7 @@ export default () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/payBill" component={PaymentController} />
+        <Route exact path="/" component={PaymentController} />
         <Route path="/viewTransactions" component={ViewTransactions} />
         <Route path="/settings" component={Settings} />
         <Route path="/about" component={About} />

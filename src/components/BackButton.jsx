@@ -17,7 +17,7 @@ class BackButton extends Component {
     return (
       <div id="cb-main">
         <div id="cb-button">
-          <AnchorButton large intent="primary" rightIcon="arrow-left" text="Back" onClick={this.handleClick} />
+          <AnchorButton large intent="primary" icon="arrow-left" text="Back" onClick={this.handleClick} />
         </div>
       </div>
     );

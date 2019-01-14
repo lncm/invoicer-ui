@@ -17,7 +17,7 @@ class NextBillButton extends Component {
     return (
       <div id="nb-main">
         <div id="nb-button">
-          <AnchorButton large intent="primary" rightIcon="arrow-right" text="Next Bill" onClick={this.handleClick} />
+          <AnchorButton large intent="primary" icon="arrow-right" text="Next Bill" onClick={this.handleClick} />
         </div>
       </div>
     );
