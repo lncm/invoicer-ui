@@ -20,6 +20,9 @@
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-one-expression-per-line": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "react/prop-types": "off",
     "react/prefer-stateless-function": "off"
   }
 }
