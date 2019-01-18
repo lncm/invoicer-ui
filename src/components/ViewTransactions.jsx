@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Cell, Column, Table, TableLoadingOption, TruncatedFormat } from '@blueprintjs/table';
+import { Switch } from '@blueprintjs/core';
 import Logo from './Logo';
 import HomeButton from './HomeButton';
 import { getHistory } from '../api';
@@ -16,12 +17,12 @@ const FORMAT_OPTIONS = {
 class ViewTransactions extends Component {
   constructor(props) {
     super(props);
-    this.state = { history: '' };
-
+    this.state = { allHistory: '', onlyPaidHistory: '', history: '', onlyPaid: true };
     this.cellRendererStatus = this.cellRendererStatus.bind(this);
     this.cellRendererDescription = this.cellRendererDescription.bind(this);
     this.cellRendererBitcoinAmount = this.cellRendererBitcoinAmount.bind(this);
     this.cellRendererDate = this.cellRendererDate.bind(this);
+    this.handleOnlyPaidChange = this.handleOnlyPaidChange.bind(this);
   }
 
   componentDidMount() {
@@ -47,9 +48,33 @@ class ViewTransactions extends Component {
   }
 
   async refreshTransactionHistory() {
-    const history = await getHistory();
-    this.setState({
-      history,
+    const histJson = await getHistory();
+    if ('history' in histJson) {
+      const allHistory = histJson.history;
+      const onlyPaidHistory = [];
+      for (let i = 0; i < allHistory.length; i += 1) {
+        const row = allHistory[i];
+        if (row.is_paid) {
+          onlyPaidHistory.push(row);
+        }
+      }
+
+      this.setState((prevState) => {
+        return {
+          allHistory,
+          onlyPaidHistory,
+          history: prevState.onlyPaid ? onlyPaidHistory : allHistory,
+        };
+      });
+    }
+  }
+
+  handleOnlyPaidChange() {
+    this.setState((prevState) => {
+      return {
+        onlyPaid: !prevState.onlyPaid,
+        history: !prevState.onlyPaid ? prevState.onlyPaidHistory : prevState.allHistory,
+      };
     });
   }
 
@@ -90,7 +115,7 @@ class ViewTransactions extends Component {
 
   cellRendererDate(rowIndex) {
     if (this.state.history !== '') {
-      const paidAt = this.state.history[rowIndex].paid_at;
+      const paidAt = this.state.history[rowIndex].created_at;
       if (paidAt) {
         const paidDate = new Date(paidAt);
         const formattedPaidDate = paidDate.toLocaleString('en-US', FORMAT_OPTIONS);
@@ -110,12 +135,16 @@ class ViewTransactions extends Component {
           Transactions
         </div>
 
+        <div id="vt-switch">
+          <Switch checked={this.state.onlyPaid} label="Only Paid Transactions" onChange={this.handleOnlyPaidChange} />
+        </div>
+
         <div id="vt-table">
           <Table numRows={this.getRowLength()} loadingOptions={this.getLoadingOptions()}>
             <Column name="Status" cellRenderer={this.cellRendererStatus} />
             <Column name="Description" cellRenderer={this.cellRendererDescription} />
             <Column name="Bitcoin Amount" cellRenderer={this.cellRendererBitcoinAmount} />
-            <Column name="Paid Date" cellRenderer={this.cellRendererDate} />
+            <Column name="Created Date" cellRenderer={this.cellRendererDate} />
             <Column name="Type">Lightning</Column>
           </Table>
         </div>
