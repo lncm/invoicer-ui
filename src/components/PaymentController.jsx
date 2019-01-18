@@ -29,7 +29,7 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', code: '', bitcoinQRCode: true, lightningQRCode: true, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinQRCode: true, lightningQRCode: true, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
@@ -37,10 +37,9 @@ class PaymentController extends Component {
     this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
   }
 
-
-  setCode(code) {
+  setInvoice(invoice) {
     this.setState({
-      code,
+      invoice,
       paymentStatus: paymentEnum.REQUESTING_PAYMENT,
     }, this.checkInvoiceStatus);
   }
@@ -93,20 +92,19 @@ class PaymentController extends Component {
 
   async generateInvoice() {
     const description = `Payment of ${this.state.fiatAmount} THB to Food 4 Thought`;
-    const code = await newInvoice(this.state.bitcoinAmount * 100000000, description,
-      this.state.qrCodeType);
-    this.setCode(code);
+    const invoice = await newInvoice(this.state.bitcoinAmount * 100000000, description);
+    this.setInvoice(invoice);
   }
 
   async checkInvoiceStatus() {
-    const status = await awaitStatus(this.state.code.hash);
-    if (status === 'paid') {
+    const status = await awaitStatus(this.state.invoice.hash, this.state.invoice.address);
+    if ('error' in status) {
       this.setState({
-        paymentStatus: paymentEnum.PAID,
+        paymentStatus: paymentEnum.INVOICE_EXPIRED,
       });
     } else {
       this.setState({
-        paymentStatus: paymentEnum.INVOICE_EXPIRED,
+        paymentStatus: paymentEnum.PAID,
       });
     }
   }
@@ -161,7 +159,7 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
-            <QRCodeView invoice={this.state.code.invoice} />
+            <QRCodeView invoice={this.state.invoice.bolt11} />
             <StatusMessage message="Please Pay Bill" displaySpinner />
           </div>
         );
@@ -185,8 +183,8 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
-            <QRCodeView invoice={this.state.code.invoice} />
-            <StatusMessage message="Expired.  Try Again" />
+            <QRCodeView invoice={this.state.invoice.bolt11} />
+            <StatusMessage message="Expired.  Try Again" displaySpinner />
           </div>
         );
       default:

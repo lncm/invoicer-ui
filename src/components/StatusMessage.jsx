@@ -13,7 +13,11 @@ const StatusMessage = ({ message, displaySpinner }) => {
 
 StatusMessage.propTypes = {
   message: PropTypes.string.isRequired,
-  displaySpinner: PropTypes.bool.isRequired,
+  displaySpinner: PropTypes.bool,
+};
+
+StatusMessage.defaultProps = {
+  displaySpinner: true,
 };
 
 export default StatusMessage;

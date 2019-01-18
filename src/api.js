@@ -1,26 +1,29 @@
-import { baseUrl, donationDesc } from './config';
+import { baseUrl } from './config';
 
-export async function newInvoice(amount, description, bitcoinQRCode, lightningQRCode) {
-  let fetchString;
-  if (bitcoinQRCode && lightningQRCode) {
-    fetchString = `${baseUrl}/payment/invoice?amount=${amount}&desc=${description}`;
-  } else if (bitcoinQRCode) {
-    fetchString = `${baseUrl}/payment/btc/invoice?amount=${amount}&desc=${description}`;
-  } else if (lightningQRCode) {
-    fetchString = `${baseUrl}/payment/ln/invoice?amount=${amount}&desc=${description}`;
-  } else {
-    // TODO handle error
-  }
+export async function newInvoice(amount, description) {
+  const url = `${baseUrl}/payment/?amount=${amount}&desc=${description}`;
+  const data = { amount: `${amount}`, description: `${description}` };
 
-  return (await fetch(fetchString)).json();
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(res => res.json());
+
+  // TODO handle error
+  // .then(response => console.log('Success:', JSON.stringify(response)))
+  // .catch(error => console.error('Error:', error));
 }
 
-export async function newDonation() {
-  return (await fetch(`${baseUrl}/invoice?&desc=${donationDesc}`)).json();
-}
+// TODO support donations
+// export async function newDonation(donationDesc) {
+//   return (await fetch(`${baseUrl}/payment/?&desc=${donationDesc}`)).json();
+// }
 
-export async function awaitStatus(invoiceId) {
-  return (await fetch(`${baseUrl}/status/${invoiceId}`)).json();
+export async function awaitStatus(hash, address) {
+  return (await fetch(`${baseUrl}/payment/hash=${hash}&address=${address}`)).json();
 }
 
 export async function getPrice() {

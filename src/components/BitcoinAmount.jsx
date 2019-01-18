@@ -11,7 +11,7 @@ const BitcoinAmount = ({ amount }) => {
 };
 
 BitcoinAmount.propTypes = {
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.string.isRequired,
 };
 
 export default BitcoinAmount;
