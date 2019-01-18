@@ -13,7 +13,6 @@ import StatusMessage from './StatusMessage';
 import Logo from './Logo';
 import BackButton from './BackButton';
 import NextBillButton from './NextBillButton';
-import QRCodeType from './QRCodeType';
 
 const paymentEnum = {
   REQUESTING_AMOUNT: 0,
@@ -29,12 +28,10 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinQRCode: true, lightningQRCode: true, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
-    this.handleBitcoinQRCodeChange = this.handleBitcoinQRCodeChange.bind(this);
-    this.handleLightningQRCodeChange = this.handleLightningQRCodeChange.bind(this);
   }
 
   setInvoice(invoice) {
@@ -42,22 +39,6 @@ class PaymentController extends Component {
       invoice,
       paymentStatus: paymentEnum.REQUESTING_PAYMENT,
     }, this.checkInvoiceStatus);
-  }
-
-  handleBitcoinQRCodeChange() {
-    this.setState((prevState) => {
-      return {
-        bitcoinQRCode: !prevState.bitcoinQRCode,
-      };
-    });
-  }
-
-  handleLightningQRCodeChange() {
-    this.setState((prevState) => {
-      return {
-        lightningQRCode: !prevState.lightningQRCode,
-      };
-    });
   }
 
   handleNewAmount() {
@@ -114,7 +95,7 @@ class PaymentController extends Component {
       case paymentEnum.REQUESTING_AMOUNT:
         return (
           <div>
-            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" bitcoinQRCode={this.state.bitcoinQRCode} lightningQRCode={this.state.lightningQRCode} onAmountChange={this.handleAmountChange} onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
+            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" onAmountChange={this.handleAmountChange} onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
           </div>
         );
       case paymentEnum.FINDING_EXCHANGE_RATE:
@@ -122,10 +103,6 @@ class PaymentController extends Component {
           <div>
             <Logo />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType
-              bitcoinQRCode={this.state.bitcoinQRCode}
-              lightningQRCode={this.state.lightningQRCode}
-            />
             <FiatAmount amount={this.state.fiatAmount} />
             <QRCodePending />
             <StatusMessage message="Preparing Bill" displaySpinner />
@@ -136,10 +113,6 @@ class PaymentController extends Component {
           <div>
             <Logo />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType
-              bitcoinQRCode={this.state.bitcoinQRCode}
-              lightningQRCode={this.state.lightningQRCode}
-            />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
@@ -152,10 +125,6 @@ class PaymentController extends Component {
           <div>
             <Logo />
             <BackButton onBack={this.handleNewAmount} />
-            <QRCodeType
-              bitcoinQRCode={this.state.bitcoinQRCode}
-              lightningQRCode={this.state.lightningQRCode}
-            />
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
