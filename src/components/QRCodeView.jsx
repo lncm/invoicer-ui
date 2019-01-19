@@ -19,6 +19,11 @@ QRCodeView.propTypes = {
   address: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   bolt11: PropTypes.string.isRequired,
+  bitcoinOnly: PropTypes.bool,
+};
+
+QRCodeView.defaultProps = {
+  bitcoinOnly: false,
 };
 
 export default QRCodeView;

@@ -21,6 +21,7 @@ const paymentEnum = {
   REQUESTING_PAYMENT: 3,
   PAID: 4,
   INVOICE_EXPIRED: 5,
+  BITCOIN_ONLY: 6,
 };
 
 class PaymentController extends Component {
@@ -28,7 +29,7 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinOnly: false, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
@@ -78,16 +79,35 @@ class PaymentController extends Component {
   }
 
   async checkInvoiceStatus() {
+    // Check for both LN & BTC statuses
     const status = await awaitStatus(this.state.invoice.hash, this.state.invoice.address);
-    if ('error' in status) {
-      this.setState({
-        paymentStatus: paymentEnum.INVOICE_EXPIRED,
-      });
-    } else {
+    if(!('error' in status)) {
+      // TODO: check what error happened
       this.setState({
         paymentStatus: paymentEnum.PAID,
       });
+
+      return;
     }
+
+    this.setState({
+      paymentStatus: paymentEnum.BITCOIN_ONLY,
+      bitcoinOnly: true,
+    });
+
+    // LN invoice expired - check for Bitcoin only
+    const status = await awaitStatus(null, this.state.invoice.address);
+    if ('error' in status) {
+      // TODO: check what error happened
+      this.setState({
+        paymentStatus: paymentEnum.INVOICE_EXPIRED,
+      });
+      return;
+    }
+
+    this.setState({
+      paymentStatus: paymentEnum.PAID,
+    });
   }
 
   render() {
@@ -148,7 +168,7 @@ class PaymentController extends Component {
             <StatusMessage message="Payment Received" displaySpinner={false} />
           </div>
         );
-      case paymentEnum.INVOICE_EXPIRED:
+      case paymentEnum.BITCOIN_ONLY:
         return (
           <div>
             <Logo />
@@ -159,11 +179,22 @@ class PaymentController extends Component {
             <QRCodeView
               address={this.state.invoice.address}
               amount={this.state.bitcoinAmount}
-              bolt11={this.state.invoice.bolt11}
+              bitcoinOnly={this.state.bitcoinOnly}
             />
-            <StatusMessage message="Expired.  Try Again" displaySpinner />
+            <StatusMessage message="LN expired.  Waiting for Bitcoin only." displaySpinner />
           </div>
         );
+      case paymentEnum.INVOICE_EXPIRED:
+      return (
+        <div>
+          <Logo />
+          <NextBillButton onNewAmount={this.handleNewAmount} />
+          <FiatAmount amount={this.state.fiatAmount} />
+          <ExchangeRate rate={this.state.exchangeRate} />
+          <BitcoinAmount amount={this.state.bitcoinAmount} />
+          <StatusMessage message="Expired.  Try Again" displaySpinner />
+        </div>
+      );
       default:
         // TODO handle exceptions
         return '';
