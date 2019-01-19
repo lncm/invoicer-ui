@@ -2,7 +2,7 @@ import { baseUrl } from './config';
 
 export async function newInvoice(amount, description) {
   const url = `${baseUrl}/payment`;
-  const data = { amount: `${parseInt(amount, 10)}`, description: `${description}` };
+  const data = { amount: parseInt(amount, 10), description: `${description}` };
 
   return fetch(url, {
     method: 'POST',
