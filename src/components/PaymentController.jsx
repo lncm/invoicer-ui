@@ -80,7 +80,7 @@ class PaymentController extends Component {
 
   async checkInvoiceStatus() {
     // Check for both LN & BTC statuses
-    const status = await awaitStatus(this.state.invoice.hash, this.state.invoice.address);
+    let status = await awaitStatus(this.state.invoice.hash, this.state.invoice.address);
     if(!('error' in status)) {
       // TODO: check what error happened
       this.setState({
@@ -96,7 +96,7 @@ class PaymentController extends Component {
     });
 
     // LN invoice expired - check for Bitcoin only
-    const status = await awaitStatus(null, this.state.invoice.address);
+    status = await awaitStatus(null, this.state.invoice.address);
     if ('error' in status) {
       // TODO: check what error happened
       this.setState({
