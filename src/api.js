@@ -23,7 +23,7 @@ export async function newInvoice(amount, description) {
 // }
 
 export async function awaitStatus(hash, address) {
-  return (await fetch(`${baseUrl}/payment/hash=${hash}&address=${address}`)).json();
+  return (await fetch(`${baseUrl}/payment?hash=${hash}&address=${address}`)).json();
 }
 
 export async function getPrice() {
