@@ -11,9 +11,9 @@ export default class KeyPad extends Component {
   }
   handleKeyPress(value) {
     const { text } = this.state;
-    if (value === 'enter') {
-      // TODO replace with this.props.someAction
-      alert(parseFloat(text));
+    const { onSubmit } = this.props;
+    if (value === 'enter' && text.length > 0) {
+      onSubmit(parseFloat(text));
       return this.setState({ text: '' });
     }
     if (value === 'clear') {

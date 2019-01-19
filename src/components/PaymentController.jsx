@@ -48,12 +48,9 @@ class PaymentController extends Component {
     });
   }
 
-  handleAmountChange(fiatAmount) {
-    this.setState({ fiatAmount });
-  }
-
-  handleAmountConfirm() {
+  handleAmountConfirm(fiatAmount) {
     this.setState({
+      fiatAmount,
       paymentStatus: paymentEnum.FINDING_EXCHANGE_RATE,
     });
     this.findExchangeRate();
@@ -115,7 +112,7 @@ class PaymentController extends Component {
       case paymentEnum.REQUESTING_AMOUNT:
         return (
           <div>
-            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" onAmountChange={this.handleAmountChange} onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
+            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
           </div>
         );
       case paymentEnum.FINDING_EXCHANGE_RATE:
