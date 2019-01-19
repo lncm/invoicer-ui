@@ -30,7 +30,7 @@ class PaymentController extends Component {
   constructor(props) {
     super(props);
     this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinOnly: false, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
-    this.handleAmountChange = this.handleAmountChange.bind(this);
+    // this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
   }
