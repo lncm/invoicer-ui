@@ -73,7 +73,7 @@ class PaymentController extends Component {
 
   async generateInvoice() {
     const description = `Payment of ${this.state.fiatAmount} THB to Food 4 Thought`;
-    const invoice = await newInvoice(this.state.bitcoinAmount * 100000000, description);
+    const invoice = await newInvoice(this.state.bitcoinAmount * 1e8, description);
     this.setInvoice(invoice);
   }
 
@@ -128,7 +128,11 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
-            <QRCodeView invoice={this.state.invoice.bolt11} />
+            <QRCodeView
+              address={this.state.invoice.address}
+              amount={this.state.bitcoinAmount}
+              bolt11={this.state.invoice.bolt11}
+            />
             <StatusMessage message="Please Pay Bill" displaySpinner />
           </div>
         );
@@ -152,7 +156,11 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
-            <QRCodeView invoice={this.state.invoice.bolt11} />
+            <QRCodeView
+              address={this.state.invoice.address}
+              amount={this.state.bitcoinAmount}
+              bolt11={this.state.invoice.bolt11}
+            />
             <StatusMessage message="Expired.  Try Again" displaySpinner />
           </div>
         );
