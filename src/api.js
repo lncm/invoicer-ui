@@ -26,7 +26,7 @@ export async function awaitStatus(hash, address) {
   let path = `address=${address}`
 
   if (hash) {
-      path += `${path}&hash=${hash}`
+      path += `&hash=${hash}`
   }
   return (await fetch(`${baseUrl}/payment?${path}`)).json();
 }
