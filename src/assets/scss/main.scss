@@ -277,6 +277,14 @@ body {
   top: 40px;
 }
 
+#vt-switch {
+  position: absolute;
+  font-size: $labelSize;
+  font-weight: $labelWeight;
+  left: 440px;
+  top: 140px;
+}
+
 #vt-table {
   position: absolute;
   font-size: $titleSize;

@@ -22,6 +22,7 @@ class ViewTransactions extends Component {
     this.cellRendererDescription = this.cellRendererDescription.bind(this);
     this.cellRendererBitcoinAmount = this.cellRendererBitcoinAmount.bind(this);
     this.cellRendererDate = this.cellRendererDate.bind(this);
+    this.cellRenderPaidWith = this.cellRenderPaidWith.bind(this);
     this.handleOnlyPaidChange = this.handleOnlyPaidChange.bind(this);
   }
 
@@ -117,12 +118,31 @@ class ViewTransactions extends Component {
     if (this.state.history !== '') {
       const paidAt = this.state.history[rowIndex].created_at;
       if (paidAt) {
-        const paidDate = new Date(paidAt);
+        const paidDate = new Date(paidAt * 1e3);
         const formattedPaidDate = paidDate.toLocaleString('en-US', FORMAT_OPTIONS);
         return <Cell><TruncatedFormat>{formattedPaidDate}</TruncatedFormat></Cell>;
       }
     }
     return <Cell />;
+  }
+
+  cellRenderPaidWith(rowIndex) {
+    let paidWith = '';
+    if (this.state.history !== '') {
+      const row = this.state.history[rowIndex];
+      if (row.ln_paid) {
+        if (row.btc_paid) {
+          paidWith = 'Bitcoin And Lightning';
+        } else {
+          paidWith = 'Lightning';
+        }
+      } else if (row.btc_paid) {
+        paidWith = 'Bitcoin';
+      } else {
+        paidWith = 'Not Paid';
+      }
+    }
+    return <Cell>{paidWith}</Cell>;
   }
 
   render() {
@@ -140,12 +160,16 @@ class ViewTransactions extends Component {
         </div>
 
         <div id="vt-table">
-          <Table numRows={this.getRowLength()} loadingOptions={this.getLoadingOptions()}>
+          <Table
+            numRows={this.getRowLength()}
+            loadingOptions={this.getLoadingOptions()}
+            columnWidths={[106, 180, 180, 220, 180]}
+          >
             <Column name="Status" cellRenderer={this.cellRendererStatus} />
             <Column name="Description" cellRenderer={this.cellRendererDescription} />
             <Column name="Bitcoin Amount" cellRenderer={this.cellRendererBitcoinAmount} />
             <Column name="Created Date" cellRenderer={this.cellRendererDate} />
-            <Column name="Type">Lightning</Column>
+            <Column name="Paid With" cellRenderer={this.cellRenderPaidWith} />
           </Table>
         </div>
       </div>
