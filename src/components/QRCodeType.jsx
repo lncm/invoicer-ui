@@ -28,7 +28,7 @@ class QRCodeType extends Component {
             selectedValue={this.props.qrCodeType}
           >
             <Radio label="Bitcoin" value="bitcoin" />
-            <Radio label="Lighting" value="lightning" />
+            <Radio label="Lightning" value="lightning" />
             <Radio label="Both" value="both" />
           </RadioGroup>
         </div>
