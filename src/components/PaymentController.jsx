@@ -22,6 +22,7 @@ const paymentEnum = {
   PAID: 4,
   INVOICE_EXPIRED: 5,
   BITCOIN_ONLY: 6,
+  BLUE_WALLET: 7,
 };
 
 class PaymentController extends Component {
@@ -29,7 +30,7 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinOnly: false, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', singleMethod: '', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     // this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
@@ -89,7 +90,7 @@ class PaymentController extends Component {
 
     this.setState({
       paymentStatus: paymentEnum.BITCOIN_ONLY,
-      bitcoinOnly: true,
+      singleMethod: 'bitcoin',
     });
 
     // LN invoice expired - check for Bitcoin only
@@ -176,9 +177,24 @@ class PaymentController extends Component {
             <QRCodeView
               address={this.state.invoice.address}
               amount={this.state.bitcoinAmount}
-              bitcoinOnly={this.state.bitcoinOnly}
+              singleMethod={this.state.singleMethod}
             />
             <StatusMessage message="LN expired.  Waiting for Bitcoin only." displaySpinner />
+          </div>
+        );
+      case paymentEnum.BLUE_WALLET:
+        return (
+          <div>
+            <Logo />
+            <NextBillButton onNewAmount={this.handleNewAmount} />
+            <FiatAmount amount={this.state.fiatAmount} />
+            <ExchangeRate rate={this.state.exchangeRate} />
+            <BitcoinAmount amount={this.state.bitcoinAmount} />
+            <QRCodeView
+              bolt11={this.state.invoice.bolt11}
+              singleMethod={this.state.singleMethod}
+            />
+            <StatusMessage message="Waiting for Lightning only." displaySpinner />
           </div>
         );
       case paymentEnum.INVOICE_EXPIRED:
