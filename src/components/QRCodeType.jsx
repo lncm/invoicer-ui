@@ -1,15 +1,36 @@
 import React, { Component } from 'react';
-import { Switch } from '@blueprintjs/core';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { RadioGroup, Radio } from '@blueprintjs/core';
+import { editableQrCodeType } from '../config';
 
 class QRCodeType extends Component {
+  constructor(props) {
+    super(props);
+    this.handleValueChange = this.handleValueChange.bind(this);
+  }
+
+  handleValueChange(event) {
+    this.props.onQrCodeTypeChange(event.target.value);
+  }
+
   render() {
+    if ((`${editableQrCodeType}`) !== 'true') {
+      return null;
+    }
+
     return (
       <div id="qt-main">
-        <div id="qt-switch">
-          <Switch large disabled inline labelElement="Bitcoin" checked={this.props.bitcoinQRCode} />
-          <Switch large disabled inline labelElement="Lightning" checked={this.props.lightningQRCode} />
+        <div id="qt-radio">
+          <RadioGroup
+            inline
+            onChange={this.handleValueChange}
+            selectedValue={this.props.qrCodeType}
+          >
+            <Radio label="Bitcoin" value="bitcoin" />
+            <Radio label="Lighting" value="lightning" />
+            <Radio label="Both" value="both" />
+          </RadioGroup>
         </div>
       </div>
     );
@@ -17,8 +38,8 @@ class QRCodeType extends Component {
 }
 
 QRCodeType.propTypes = {
-  bitcoinQRCode: PropTypes.bool.isRequired,
-  lightningQRCode: PropTypes.bool.isRequired,
+  qrCodeType: PropTypes.string.isRequired,
+  onQrCodeTypeChange: PropTypes.func.isRequired,
 };
 
 export default withRouter(QRCodeType);

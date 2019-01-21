@@ -2,10 +2,12 @@ import React from 'react';
 import QRCode from 'qrcode.react';
 import PropTypes from 'prop-types';
 
-const QRCodeView = ({ address, amount, bolt11, bitcoinOnly }) => {
+const QRCodeView = ({ address, amount, bolt11, qrCodeType }) => {
   let uri = `bitcoin:${address}?amount=${amount}&lightning=${bolt11}`;
-  if (bitcoinOnly) {
+  if (qrCodeType === 'bitcoin') {
     uri = `bitcoin:${address}?amount=${amount}`;
+  } else if (qrCodeType === 'lightning') {
+    uri = `lightning:${bolt11}`;
   }
 
   return (
@@ -19,11 +21,7 @@ QRCodeView.propTypes = {
   address: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   bolt11: PropTypes.string.isRequired,
-  bitcoinOnly: PropTypes.bool,
-};
-
-QRCodeView.defaultProps = {
-  bitcoinOnly: false,
+  qrCodeType: PropTypes.string.isRequired,
 };
 
 export default QRCodeView;

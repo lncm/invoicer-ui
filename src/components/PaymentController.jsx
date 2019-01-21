@@ -8,6 +8,7 @@ import ExchangeRate from './ExchangeRate';
 import BitcoinAmount from './BitcoinAmount';
 import QRCodePending from './QRCodePending';
 import QRCodeView from './QRCodeView';
+import QRCodeType from './QRCodeType';
 import QRCodePaid from './QRCodePaid';
 import StatusMessage from './StatusMessage';
 import Logo from './Logo';
@@ -21,7 +22,7 @@ const paymentEnum = {
   REQUESTING_PAYMENT: 3,
   PAID: 4,
   INVOICE_EXPIRED: 5,
-  BITCOIN_ONLY: 6,
+  LIGHTNING_EXPIRED: 6,
 };
 
 class PaymentController extends Component {
@@ -29,10 +30,11 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', bitcoinOnly: false, paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', qrCodeType: 'both', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     // this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
+    this.handleQRCodeTypeChange = this.handleQRCodeTypeChange.bind(this);
   }
 
   setInvoice(invoice) {
@@ -40,6 +42,12 @@ class PaymentController extends Component {
       invoice,
       paymentStatus: paymentEnum.REQUESTING_PAYMENT,
     }, this.checkInvoiceStatus);
+  }
+
+  handleQRCodeTypeChange(qrCodeType) {
+    this.setState({
+      qrCodeType,
+    });
   }
 
   handleNewAmount() {
@@ -78,7 +86,7 @@ class PaymentController extends Component {
   async checkInvoiceStatus() {
     // Check for both LN & BTC statuses
     let status = await awaitStatus(this.state.invoice.hash, this.state.invoice.address);
-    if(!('error' in status)) {
+    if (!('error' in status)) {
       // TODO: check what error happened
       this.setState({
         paymentStatus: paymentEnum.PAID,
@@ -88,8 +96,8 @@ class PaymentController extends Component {
     }
 
     this.setState({
-      paymentStatus: paymentEnum.BITCOIN_ONLY,
-      bitcoinOnly: true,
+      paymentStatus: paymentEnum.LIGHTNING_EXPIRED,
+      qrCodeType: 'bitcoin',
     });
 
     // LN invoice expired - check for Bitcoin only
@@ -121,6 +129,10 @@ class PaymentController extends Component {
             <Logo />
             <BackButton onBack={this.handleNewAmount} />
             <FiatAmount amount={this.state.fiatAmount} />
+            <QRCodeType
+              qrCodeType={this.state.qrCodeType}
+              onQrCodeTypeChange={this.handleQRCodeTypeChange}
+            />
             <QRCodePending />
             <StatusMessage message="Preparing Bill" displaySpinner />
           </div>
@@ -133,6 +145,10 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
+            <QRCodeType
+              qrCodeType={this.state.qrCodeType}
+              onQrCodeTypeChange={this.handleQRCodeTypeChange}
+            />
             <QRCodePending />
             <StatusMessage message="Generating Bill" displaySpinner />
           </div>
@@ -145,10 +161,15 @@ class PaymentController extends Component {
             <FiatAmount amount={this.state.fiatAmount} />
             <ExchangeRate rate={this.state.exchangeRate} />
             <BitcoinAmount amount={this.state.bitcoinAmount} />
+            <QRCodeType
+              qrCodeType={this.state.qrCodeType}
+              onQrCodeTypeChange={this.handleQRCodeTypeChange}
+            />
             <QRCodeView
               address={this.state.invoice.address}
               amount={this.state.bitcoinAmount}
               bolt11={this.state.invoice.bolt11}
+              qrCodeType={this.state.qrCodeType}
             />
             <StatusMessage message="Please Pay Bill" displaySpinner />
           </div>
@@ -165,7 +186,7 @@ class PaymentController extends Component {
             <StatusMessage message="Payment Received" displaySpinner={false} />
           </div>
         );
-      case paymentEnum.BITCOIN_ONLY:
+      case paymentEnum.LIGHTNING_EXPIRED:
         return (
           <div>
             <Logo />
@@ -176,22 +197,23 @@ class PaymentController extends Component {
             <QRCodeView
               address={this.state.invoice.address}
               amount={this.state.bitcoinAmount}
-              bitcoinOnly={this.state.bitcoinOnly}
+              bolt11={this.state.invoice.bolt11}
+              qrCodeType={this.state.qrCodeType}
             />
             <StatusMessage message="LN expired.  Waiting for Bitcoin only." displaySpinner />
           </div>
         );
       case paymentEnum.INVOICE_EXPIRED:
-      return (
-        <div>
-          <Logo />
-          <NextBillButton onNewAmount={this.handleNewAmount} />
-          <FiatAmount amount={this.state.fiatAmount} />
-          <ExchangeRate rate={this.state.exchangeRate} />
-          <BitcoinAmount amount={this.state.bitcoinAmount} />
-          <StatusMessage message="Expired.  Try Again" displaySpinner />
-        </div>
-      );
+        return (
+          <div>
+            <Logo />
+            <NextBillButton onNewAmount={this.handleNewAmount} />
+            <FiatAmount amount={this.state.fiatAmount} />
+            <ExchangeRate rate={this.state.exchangeRate} />
+            <BitcoinAmount amount={this.state.bitcoinAmount} />
+            <StatusMessage message="Expired.  Try Again" displaySpinner />
+          </div>
+        );
       default:
         // TODO handle exceptions
         return '';
