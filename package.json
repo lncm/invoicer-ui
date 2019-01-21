@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .jsx",
     "build": "npm run clean; cross-env NODE_ENV=production webpack --config webpack.production.config.js  --progress --profile --colors"
   },
-  "author": "Chris Hitchcott <hitchcott@gmail.com>",
+  "author": "LNCM",
   "license": "MIT",
   "dependencies": {
     "@blueprintjs/core": "^3.10.0",
