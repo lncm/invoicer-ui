@@ -53,6 +53,7 @@ class PaymentController extends Component {
   handleNewAmount() {
     this.setState({
       paymentStatus: paymentEnum.REQUESTING_AMOUNT,
+      qrCodeType: 'both',
     });
   }
 
