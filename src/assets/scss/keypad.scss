@@ -19,18 +19,11 @@
     grid-template-columns: repeat(4, 1fr);
   }
   .keypad-button {
-    &.clear {
-      background-color: red;
-    }
-    &.delete {
-      background-color: yellow;
-    }
     &.enter {
       grid-row: 3 / 5;
       grid-column: 4;
-      background-color: green;
     }
-    padding: 10px;
+    padding: 0px;
     font-size: 28px;
     font-weight: 500;
     background: #eee;
