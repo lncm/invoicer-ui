@@ -79,7 +79,7 @@ class PaymentController extends Component {
   }
 
   async generateInvoice() {
-    const description = `Payment of ${this.state.fiatAmount} THB to Food 4 Thought`;
+    const description = `Payment of ${this.state.fiatAmount} THB to LNCM`;
     const invoice = await newInvoice(this.state.bitcoinAmount * 1e8, description);
     this.setInvoice(invoice);
   }
