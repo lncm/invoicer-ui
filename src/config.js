@@ -1,4 +1,4 @@
-export const baseUrl = 'http://nolim1t-pmos-sd.local:8080/api';
+export const baseUrl = '/api';
 export const donationDesc = 'LNCM Donation';
 export const invoiceRecipient = 'LNCM';
 export const invoiceCurrency = 'THB';
