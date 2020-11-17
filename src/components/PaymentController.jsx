@@ -155,6 +155,8 @@ class PaymentController extends Component {
           </div>
         );
       case paymentEnum.REQUESTING_PAYMENT:
+        var displayedMessage = "Please scan QR or send to the following invoice";
+        console.log(displayedMessage);
         return (
           <div>
             <Logo />
@@ -172,7 +174,7 @@ class PaymentController extends Component {
               bolt11={this.state.invoice.bolt11}
               qrCodeType={this.state.qrCodeType}
             />
-            <StatusMessage message="Please Pay Bill" displaySpinner />
+            <StatusMessage message={displayedMessage} displaySpinner />
           </div>
         );
       case paymentEnum.PAID:
