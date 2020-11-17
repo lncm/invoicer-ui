@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { newInvoice, awaitStatus, getPrice } from '../api';
+import { invoiceRecipient, invoiceCurrency } from '../config';
 
 import EnterAmount from './EnterAmount';
 import FiatAmount from './FiatAmount';
@@ -30,7 +31,7 @@ class PaymentController extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fiatAmount: '', exchangeRate: '', bitcoinAmount: '', invoice: '', qrCodeType: 'both', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
+    this.state = { fiatAmount: '', fiatCurrency: invoiceCurrency, exchangeRate: '', bitcoinAmount: '', recipientDesc: invoiceRecipient, invoice: '', qrCodeType: 'both', paymentStatus: paymentEnum.REQUESTING_AMOUNT };
     // this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleAmountConfirm = this.handleAmountConfirm.bind(this);
     this.handleNewAmount = this.handleNewAmount.bind(this);
@@ -67,7 +68,7 @@ class PaymentController extends Component {
 
   async findExchangeRate() {
     const price = await getPrice();
-    const exchangeRate = price.THB;
+    const exchangeRate = price[this.state.fiatCurrency];
 
     this.setState((prevState) => {
       return {
@@ -79,7 +80,7 @@ class PaymentController extends Component {
   }
 
   async generateInvoice() {
-    const description = `Payment of ${this.state.fiatAmount} THB to LNCM`;
+    const description = `Payment of ${this.state.fiatAmount} ${this.state.fiatCurrency} to ${this.state.recipientDesc}`;
     const invoice = await newInvoice(this.state.bitcoinAmount * 1e8, description);
     this.setInvoice(invoice);
   }
@@ -121,7 +122,7 @@ class PaymentController extends Component {
       case paymentEnum.REQUESTING_AMOUNT:
         return (
           <div>
-            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency="THB" onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
+            <EnterAmount fiatAmount={this.state.fiatAmount} fiatCurrency={this.state.fiatCurrency} onAmountConfirm={this.handleAmountConfirm} onBitcoinQRCodeChange={this.handleBitcoinQRCodeChange} onLightningQRCodeChange={this.handleLightningQRCodeChange} />
           </div>
         );
       case paymentEnum.FINDING_EXCHANGE_RATE:
